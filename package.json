@@ -1,0 +1,23 @@
+{
+	"name": "json-server",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"type": "commonjs",
+	"scripts": {
+		"start": "node index.js",
+		"dev": "nodemon index.js",
+		"test": "jest"
+	},
+	"author": "Andry",
+	"license": "ISC",
+	"dependencies": {
+		"cors": "^2.8.5",
+		"express": "^4.17.1",
+		"morgan": "^1.10.0",
+		"supertest": "^6.2.2"
+	},
+	"devDependencies": {
+		"jest": "^27.3.1"
+	}
+}
