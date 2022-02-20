@@ -7,6 +7,13 @@ const formatResponseSuccess = formatResponse.formatResponseSuccess;
  * @param {Resources} resources
  */
 const initRoutes = (app, resources) => {
+	app.get("/", (req, res, next) => {
+		const endpoints = resources
+			.getAllResourceNames()
+			.map((resource) => "/" + resource);
+		res.status(200).json(formatResponseSuccess(endpoints));
+	});
+
 	for (let resourceName of resources.getAllResourceNames()) {
 		app.get(`/${resourceName}`, (req, res, next) => {
 			res

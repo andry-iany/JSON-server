@@ -30,6 +30,18 @@ afterEach(() => {
 	db.destroyTestFile();
 });
 
+describe("GET /", () => {
+	it("should return an object that has property:value 'success:true' and 'data:object'.", async () => {
+		const response = await request(app).get("/");
+		checkSuccessResponseBody(response.body);
+	});
+
+	it("should return the available resources the server can serve.", async () => {
+		const response = await request(app).get("/");
+		expect(response.body.data).toEqual(expect.arrayContaining(["/resource"]));
+	});
+});
+
 describe("GET /resource", () => {
 	describe("success", () => {
 		it("should return 200 when resource exists.", async () => {
