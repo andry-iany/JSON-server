@@ -11,6 +11,7 @@ const makeGetWithId = (id) => request(app).get(`${apiRoot}/${id}`);
 const makeRequestToNotFound = (method) => request(app)[method]("/not-found");
 const makePost = (body) => request(app).post(apiRoot).send(body);
 const makePut = (id, body) => request(app).put(`${apiRoot}/${id}`).send(body);
+const makeDelete = (id) => request(app).delete(`${apiRoot}/${id}`);
 const checkSuccessResponseBody = (resBody) => {
 	expect(resBody).toHaveProperty("success", true);
 	expect(resBody).toHaveProperty("data");
@@ -138,6 +139,36 @@ describe("PUT /resource/:id", () => {
 
 			checkErrorResponseBody(responseNotFound.body);
 			checkErrorResponseBody(responseBadRequest.body);
+		});
+	});
+});
+
+describe("DELETE /resource/:id", () => {
+	describe("success", () => {
+		it("should return 200 when deleting an existing resource.", async () => {
+			await makeDelete(1).expect(200);
+		});
+
+		it("should return an object that has property:value 'success:true' and 'data:object' if success.", async () => {
+			const response = await makeDelete(1);
+			checkSuccessResponseBody(response.body);
+		});
+
+		it("should return a valid object where data contains the value of the deleted content.", async () => {
+			const response = await makeDelete(1);
+			expect(response.body.data).toHaveProperty("id", 1);
+		});
+
+		it("should delete the element from the resource.", async () => {
+			await makeDelete(1);
+
+			await makeGetWithId(1).expect(404);
+		});
+	});
+
+	describe("error", () => {
+		it("should 404 when trying to delete an element that does not exist.", async () => {
+			await makeDelete(2).expect(404);
 		});
 	});
 });

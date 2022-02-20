@@ -42,6 +42,15 @@ const initRoutes = (app, resources) => {
 			const savedElt = resources.save(resourceName, { ...content, id });
 			res.status(200).json(formatResponseSuccess(savedElt));
 		});
+
+		app.delete(`/${resourceName}/:id`, (req, res, next) => {
+			const id = Number(req.params.id);
+			if (!resources.isResourceElementWithIdExisting(resourceName, id))
+				return next(new ErrorResponse("Resource item not found.", 404));
+
+			const deletedItem = resources.delete(resourceName, id);
+			res.status(200).send(formatResponseSuccess(deletedItem));
+		});
 	}
 };
 

@@ -36,6 +36,10 @@ class Resources {
 
 	delete(resourceName, resourceEltId) {
 		if (this.isResourceElementWithIdExisting(resourceName, resourceEltId)) {
+			const resToDelete = this.getResourceElementById(
+				resourceName,
+				resourceEltId
+			);
 			const allResources = this.#_getResources();
 			allResources[resourceName] = allResources[resourceName].filter(
 				(resElt) => resElt.id !== resourceEltId
@@ -44,7 +48,7 @@ class Resources {
 				this.#_pathToResources,
 				JSON.stringify(allResources, null, "\t")
 			);
-			return true;
+			return resToDelete;
 		} else return false;
 	}
 
