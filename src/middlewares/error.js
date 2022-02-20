@@ -1,5 +1,4 @@
 const { formatResponseError } = require("../utils/formatResponse");
-const fs = require("fs");
 
 function handleError(error, req, res, next) {
 	return res

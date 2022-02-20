@@ -1,6 +1,5 @@
-const ErrorResponse = require("../utils/ErrorResponse");
-const { formatResponseSuccess } = require("../utils/formatResponse");
-const Resources = require("../utils/Resources");
+const { ErrorResponse, formatResponse, Resources } = require("../utils");
+const formatResponseSuccess = formatResponse.formatResponseSuccess;
 
 /**
  *

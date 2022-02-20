@@ -1,6 +1,6 @@
-const createApp = require("../../src/app");
-const request = require("supertest");
 const db = require("../../__testUtils__/setupDB");
+const request = require("supertest");
+const createApp = require("../../src/app");
 const Resources = require("../../src/utils/Resources");
 
 const apiRoot = "/resource";
