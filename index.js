@@ -1,11 +1,16 @@
-const createApp = require("./src/app");
-const path = require("path");
-const Resources = require("./src/utils/Resources");
+require("dotenv").config({ path: "./.env" });
 
+const path = require("path");
+const createApp = require("./src/app");
+const Resources = require("./src/utils/Resources");
 const pathToJson = path.resolve(__dirname, "./temp_data.json");
 
-const resources = new Resources(pathToJson);
-const app = createApp(resources);
-const port = process.env.PORT || 8080;
+const init = () => {
+	const resources = new Resources(pathToJson);
+	const app = createApp(resources);
+	const port = process.env.PORT || 8080;
 
-app.listen(port, () => console.log(`Server running in port ${port}`));
+	app.listen(port, () => console.log(`Server running in port ${port}`));
+};
+
+init();
