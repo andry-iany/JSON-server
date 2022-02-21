@@ -114,6 +114,10 @@ describe("POST /resource", () => {
 			expect(response.body.data.id).not.toBe(body.id);
 		});
 	});
+
+	it("should return 400 if there's no value in the body of the request.", async () => {
+		await makePost({}).expect(400);
+	});
 });
 
 describe("PUT /resource/:id", () => {

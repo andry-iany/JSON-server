@@ -32,7 +32,11 @@ const initRoutes = (app, resources) => {
 		});
 
 		app.post(`/${resourceName}`, (req, res, next) => {
-			const savedElt = resources.save(resourceName, { ...req.body, id: NaN });
+			const content = req.body;
+			if (Object.keys(content).length === 0)
+				return next(new ErrorResponse("Content body is mandatory.", 400));
+
+			const savedElt = resources.save(resourceName, { ...content, id: NaN });
 			res.status(201).json(formatResponseSuccess(savedElt));
 		});
 
