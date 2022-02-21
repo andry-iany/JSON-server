@@ -1,16 +1,20 @@
 const fs = require("fs");
+const path = require("path");
 
 class Resources {
 	#_pathToResources;
 
 	constructor(pathToResources) {
-		if (this.#_isResourcesFileExisting(pathToResources))
+		if (this.#_isResourcesFileValid(pathToResources))
 			this.#_pathToResources = pathToResources;
 		else throw new Error("Invalid resources.");
 	}
 
-	#_isResourcesFileExisting(pathToResources) {
-		return fs.existsSync(pathToResources);
+	#_isResourcesFileValid(pathToResources) {
+		return (
+			fs.existsSync(pathToResources) &&
+			path.extname(pathToResources) === ".json"
+		);
 	}
 
 	save(resourceName, resourceElementData) {
