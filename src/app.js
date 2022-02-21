@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const morgan = require("morgan");
 const initRoutes = require("./routes/routes");
 
 function createApp(resources) {
@@ -9,6 +10,7 @@ function createApp(resources) {
 	app.use(cors());
 	app.use(express.json());
 	app.use(express.urlencoded({ extended: false }));
+	app.use(morgan("dev"));
 
 	// routes
 	initRoutes(app, resources);
