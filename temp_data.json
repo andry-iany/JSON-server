@@ -17,10 +17,7 @@
 		{
 			"id": 2,
 			"name": "Cathy",
-			"passion": [
-				"swimming",
-				"coding"
-			],
+			"passion": ["swimming", "coding"],
 			"address": {
 				"street": "Main St.",
 				"city": "Tanà"
@@ -30,9 +27,6 @@
 			"name": "jammy",
 			"age": "23",
 			"id": 4
-		},
-		{
-			"id": 5
 		}
 	]
 }

@@ -53,6 +53,7 @@ async function clearScreenAndPrintInfo() {
 	resources.getAllResourceNames().forEach((resName) => {
 		console.log(`${apiRoot}/${resName}`);
 	});
+	console.log("\n----------- logs ------------");
 }
 
 module.exports = startServer;
