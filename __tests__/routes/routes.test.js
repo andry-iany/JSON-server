@@ -188,10 +188,11 @@ describe("DELETE /resource/:id", () => {
 describe("Make request to a resource that doesn't exist.", () => {
 	const methods = ["get", "post", "put", "delete"];
 
-	it("should return 404 when making request to a resource that doesn't exist regardless of the method.", () => {
-		methods.forEach(async (method) => {
-			await makeRequestToNotFound(method).expect(404);
-		});
+	it("should return 404 when making request to a resource that doesn't exist regardless of the method.", async () => {
+		const requestPromises = methods.map((method) =>
+			makeRequestToNotFound(method).expect(404)
+		);
+		await Promise.all(requestPromises);
 	});
 
 	it("should return an object that has property:value 'success:false' and 'error:string' when when making request to a resource that doesn't exist regardless of the method.", () => {
