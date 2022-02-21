@@ -1,4 +1,5 @@
-const { createInterface } = require("readline");
+const { createInterface, clearScreenDown, cursorTo } = require("readline");
+const promisify = require("util").promisify;
 
 const readlineInterface = createInterface({
 	input: process.stdin,
@@ -13,4 +14,9 @@ async function question(message) {
 	});
 }
 
-module.exports = { question };
+async function clearScreen() {
+	await promisify(cursorTo)(process.stdout, 0, 0);
+	await promisify(clearScreenDown)(process.stdout);
+}
+
+module.exports = { clearScreen, question };
