@@ -1,6 +1,9 @@
 const fs = require("fs");
 const path = require("path");
 
+/**
+ * The instance of this class is a wrapper around the actual JSON file. It provides methods for manipulating the JSON file.
+ */
 class Resources {
 	#_pathToResources;
 

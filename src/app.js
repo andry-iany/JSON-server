@@ -16,7 +16,7 @@ function createApp(resources) {
 	initRoutes(app, resources);
 
 	// 404
-	app.all("*", require("./routes/404"));
+	app.use(require("./routes/404"));
 
 	// error handler
 	app.use(require("./middlewares/error"));

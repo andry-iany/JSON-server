@@ -15,13 +15,13 @@ async function startServer() {
 			const app = createApp(resources);
 			const server = app.listen(port);
 
-			// we promisify "error" and "listening" events to be able to use try/catch
+			// we wrap "error" and "listening" events inside promise to be able to use try/catch
 			await new Promise((resolve, reject) => {
 				server.on("error", (err) => reject(err));
 				server.on("listening", () => resolve());
 			});
 
-			await clearScreenAndPrintInfo();
+			await clearScreenAndPrintEndpointsInfo();
 
 			break; // server is running so exit the loop
 		} catch (err) {
@@ -43,16 +43,22 @@ function handleError(error) {
 	console.log(`ERROR: ${error.message}\n`);
 }
 
-async function clearScreenAndPrintInfo() {
+async function clearScreenAndPrintEndpointsInfo() {
 	await clearScreen();
+	printEndpointsInfo();
+}
+
+function printEndpointsInfo() {
 	const apiRoot = `http://localhost:${port}`;
+
 	console.log(`JSON server is running on port: ${port}.`);
 	console.log("You can send request to the available endpoints:\n");
-
 	console.log(`${apiRoot} (returns all endpoints.)`);
-	resources.getAllResourceNames().forEach((resName) => {
-		console.log(`${apiRoot}/${resName}`);
-	});
+
+	for (let resourceName of resources.getAllResourceNames()) {
+		console.log(`${apiRoot}/${resourceName}`);
+	}
+
 	console.log("\n----------- logs ------------");
 }
 
