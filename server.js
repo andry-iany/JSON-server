@@ -5,7 +5,7 @@ const { question, clearScreen } = require("./src/utils/readline");
 
 let port, resources;
 
-async function startServer() {
+module.exports = async function startServer() {
 	while (true) {
 		try {
 			let result = await getPortAndPathToResources();
@@ -28,7 +28,7 @@ async function startServer() {
 			handleError(err);
 		}
 	}
-}
+};
 
 async function getPortAndPathToResources() {
 	let pathToResources = await question("Path to JSON: ");
@@ -61,5 +61,3 @@ function printEndpointsInfo() {
 
 	console.log("\n----------- logs ------------");
 }
-
-module.exports = startServer;
