@@ -8,6 +8,8 @@ let app;
 
 const makeGet = () => request(app).get(apiRoot);
 const makeGetWithId = (id) => request(app).get(`${apiRoot}/${id}`);
+const makeGetWithQueryParam = (query) =>
+	request(app).get(`${apiRoot}?${query}`);
 const makeRequestToNotFound = (method) => request(app)[method]("/not-found");
 const makePost = (body) => request(app).post(apiRoot).send(body);
 const makePut = (id, body) => request(app).put(`${apiRoot}/${id}`).send(body);
@@ -58,6 +60,31 @@ describe("GET /resource", () => {
 			expect(response.body.data).toEqual(
 				expect.arrayContaining(db.testData[apiRoot.substring(1)])
 			);
+		});
+	});
+});
+
+describe("GET /resource?_page=&_limit=", () => {
+	describe("success", () => {
+		it("should return non paginated result if either or both _page or _limit is missing or cannot be parsed to a valid int number.", async () => {
+			const params = [
+				"_page=1&_limit=hello",
+				"_page=oops&_limit=hi",
+				"_page=2",
+				"_limit=2",
+			];
+
+			for (let param of params) {
+				const response = await makeGetWithQueryParam(param);
+				expect(response.body).not.toHaveProperty("currentPage");
+				expect(response.body).not.toHaveProperty("maxPage");
+			}
+		});
+
+		it("should return paginated result if both _limit and _page are valid number", async () => {
+			const response = await makeGetWithQueryParam("_limit=1&_page=2");
+			expect(response.body).toHaveProperty("currentPage");
+			expect(response.body).toHaveProperty("maxPage");
 		});
 	});
 });
