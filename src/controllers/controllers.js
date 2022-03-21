@@ -1,5 +1,7 @@
-const { ErrorResponse, formatResponse, Resources } = require("../utils");
+const { ErrorResponse, formatResponse, paginationUtils } = require("../utils");
 const formatResponseSuccess = formatResponse.formatResponseSuccess;
+const formatResponseSuccessWithPagination =
+	formatResponse.formatResponseSuccessWithPagination;
 
 exports.getAllEndpoints = function (resources) {
 	return (req, res, next) => {
@@ -12,11 +14,28 @@ exports.getAllEndpoints = function (resources) {
 
 exports.getResourceByName = function (resources, resourceName) {
 	return (req, res, next) => {
-		res
-			.status(200)
-			.json(formatResponseSuccess(resources.getResourceByName(resourceName)));
+		let format = formatResponseSuccess;
+		let results = resources.getResourceByName(resourceName);
+
+		const pageAndLimit = paginationUtils.getPageAndLimitIfValid(req.query);
+		if (pageAndLimit) {
+			format = formatResponseSuccessWithPagination;
+			results = getResourceByNameWithPagination(results, pageAndLimit);
+		}
+
+		return res.status(200).json(format(results));
 	};
 };
+
+function getResourceByNameWithPagination(rawResults, pageAndLimit) {
+	const { _page, _limit } = pageAndLimit;
+	const pageStart = (_page - 1) * _limit;
+	return {
+		data: rawResults.slice(pageStart, pageStart + _limit),
+		maxPage: paginationUtils.getMaxPage(rawResults.length, _limit),
+		currentPage: _page,
+	};
+}
 
 exports.getResourceElementById = function (resources, resourceName) {
 	return (req, res, next) => {

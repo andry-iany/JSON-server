@@ -1,15 +1,21 @@
-const formatResponseSuccess = (data) => {
+exports.formatResponseSuccess = (data) => {
 	return {
 		success: true,
 		data,
 	};
 };
 
-const formatResponseError = (error) => {
+exports.formatResponseSuccessWithPagination = function ({
+	data,
+	currentPage,
+	maxPage,
+}) {
+	return { success: true, data, currentPage, maxPage };
+};
+
+exports.formatResponseError = (error) => {
 	return {
 		success: false,
 		error,
 	};
 };
-
-module.exports = { formatResponseError, formatResponseSuccess };
